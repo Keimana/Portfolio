@@ -127,7 +127,7 @@ const imageBoxStyle = {
   color: '#888',
   fontSize: '14px',
   overflow: 'hidden',
-  padding: '4px',
+  padding: '40px',
   cursor: 'pointer',
 };
 
