@@ -199,7 +199,7 @@ export default function Projects() {
                 display: 'flex',
                 flexDirection: 'column',
                 boxSizing: 'border-box',
-                padding: '16px',
+                padding: '10px',
               }}
             >
               <div className="fullscreen-content" ref={modalContentRef}>

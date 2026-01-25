@@ -48,7 +48,13 @@ export function DedosCompiler({
 }) {
   const { stage: activeStage, output } = outputState;
   const techStack = [PythonIcon, VscodeIcon];
-
+  const dedosBullets = [
+    'Python: core programming language used',
+    'VS Code: development environment',
+    'Implemented a functional Python-based compiler for "plant()" commands',
+    'Built lexical, syntax, semantic, and code generation stages with real-time output',
+    'Documented and submitted the project thesis, including physical binding at the university',
+  ];
   const handleStageClick = (stage) => {
     let newOutput = '';
 
@@ -150,10 +156,9 @@ export function DedosCompiler({
       {/* Tech section */}
       <div style={techSectionStyle}>
         <ul style={bulletListStyle}>
-          <li>Python: core language used</li>
-          <li>NLP: natural language processing techniques</li>
-          <li>Pandas: data handling and analysis</li>
-          <li>VS Code: development environment</li>
+          {dedosBullets.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
 
         <div style={techIconsWrapperStyle}>
@@ -177,12 +182,13 @@ export function DedosCompiler({
 export function TextSummProject() {
   const images = [research1, research2];
   const techStack = [PythonIcon, NLPIcon, PandasIcon, VscodeIcon];
-
   const projectBullets = [
-    'Dataset preprocessing and cleaning',
-    'Adaptive summarization algorithm',
-    'NLP techniques for text analysis',
-    'Evaluation with metrics and results',
+    'Collected and preprocessed text datasets for summarization experiments',
+    'Implemented an adaptive dynamic algorithm combining steps from multiple summarization methods',
+    'Applied NLP techniques for text analysis, including tokenization, feature extraction, and scoring',
+    'Evaluated model performance using metrics like ROUGE and BLEU, ensuring accuracy and efficiency',
+    'Optimized memory usage and computation through dynamic programming techniques',
+    'Documented methodology and results for peer-reviewed publication',
   ];
 
   return (
@@ -231,6 +237,16 @@ export default function PlmEams() {
   const [modalImage, setModalImage] = useState(null);
   const images = [eams1, eams2];
   const techStack = [FigmaIcon];
+  const projectBullets = [
+    'Designed intuitive user login and authentication interfaces for students and staff',
+    'Created a clean, user-friendly dashboard to visualize applications, scholarships, and user activity',
+    'Developed responsive layouts to ensure seamless experience on desktop and mobile devices',
+    'Streamlined workflow screens to simplify scholarship application and approval processes',
+    'Designed notification interfaces, including visual cues and email alerts for status updates',
+    'Crafted report generation views with clear data visualization for the Office of Student Development and Services',
+    'Focused on usability improvements to minimize errors and enhance efficiency for end users',
+    'Ensured accessible and visually consistent UI components across the software platform',
+  ];
 
   useEffect(() => {
     document.body.style.overflow = modalImage ? 'hidden' : 'auto';
@@ -239,14 +255,8 @@ export default function PlmEams() {
     };
   }, [modalImage]);
 
-  const projectBullets = [
-    'User login interface',
-    'Dashboard overview',
-    'Responsive design',
-    'Workflow management',
-    'Notifications system',
-    'Reports and analytics',
-  ];
+
+
 
   return (
     <div style={containerStyle}>
@@ -362,9 +372,9 @@ export default function PlmEams() {
 
   const bulletListStyle = {
     paddingLeft: '20px',
-    color: '#c20000',
+    color: '#000000',
     fontSize: '0.85rem',
-    lineHeight: 3.0,
+    lineHeight: 2.0,
     margin: 0,
   };
 
@@ -394,36 +404,37 @@ export default function PlmEams() {
 export const projects = [
   {
     title: 'DEDOS Compiler',
-    desc: 'Counter-Strike themed Python compiler',
+    desc: 'Interactive Python compiler inspired by Counter-Strike, implementing full compilation stages with dynamic output and stage controls',
     image: DedosIcon,
-    bgColor: '#ebebeb',
+    bgColor: '#EFECE3',
     component: DedosCompiler,
     techStack: [PythonIcon, VscodeIcon],
-    info: 'A Python-based compiler inspired by Counter-Strike commands. Try out lexical, syntax, semantic, and evaluation stages!', // <— new info field
+    info: 'A DeDos compiler inspired by Counter-Strike commands built in python programming language.', 
   },
   {
     title: 'Adaptive Approach Applied in Text Summarization',
-    desc: 'Peer-reviewed research project',
+    desc: 'Peer‑reviewed research applying an adaptive dynamic approach that synthesizes algorithmic steps from multiple methods to enhance text summarization efficiency and text processing performance',
+
     image: PythonIcon,
-    bgColor: '#facb3f',
+    bgColor: '#ffd60a',
     component: TextSummProject,
     techStack: [PythonIcon, NLPIcon, PandasIcon],
     info: 'Research project on adaptive summarization using NLP techniques. Includes datasets, analysis, and results.', 
   },
   {
-    title: 'PLM EAMS Educational Assistance Management System',
-    desc: 'PLM Educational Management System (Software Engineering1 | Software Engineering 2)',
+    title: 'Web-based Educational Assistance Management System with E-mail Notification for the Office of Student Development and Services (OSDS)',
+    desc: 'PLM Educational Assistance Management System (Software Engineering1 | Software Engineering 2)',
     image: PlmPreview,
-    bgColor: '#ebebeb',
+    bgColor: '#EFECE3',
     component: PlmEams,
     techStack: [FigmaIcon],
     info: 'Enterprise management system for PLM students and staff. Built with modern design and workflow tools.',
   },
   {
     title: 'Go Trike',
-    desc: 'Go TrikeTransportation booking System Flutter Developer Commisioned Project',
+    desc: 'Go Trike Transportation booking System Flutter Developer Commisioned Project',
     image: '/sample-gotrike.png',
-    bgColor: '#ebebeb',
+    bgColor: '#EFECE3',
     techStack: [FlutterIcon, FirebaseIcon, FigmaIcon],
     info: 'A mobile app to book tricycle rides, track locations, and manage payments efficiently.',
   },
