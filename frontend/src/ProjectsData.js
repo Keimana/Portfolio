@@ -28,250 +28,141 @@ import eams2 from './assets/eams-2.png';
    COMPONENTS
 ======================= */
 
-    export function DedosCompiler({ 
-      code = 'plant("Hello World")',
-      outputState, 
-      setOutputState, 
-      projectTitle }) {
-      const { stage: activeStage, output } = outputState;
+  const imageBoxStyle = {
+    backgroundColor: '#1e1e1e',
+    border: '0px dashed #555',
+    borderRadius: '6px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    cursor: 'pointer',
+    minHeight: '120px',
+  };
 
-      const techStack = [PythonIcon, VscodeIcon];
+export function DedosCompiler({
+  code = 'plant("Hello World")',
+  outputState,
+  setOutputState,
+  projectTitle,
+}) {
+  const { stage: activeStage, output } = outputState;
+  const techStack = [PythonIcon, VscodeIcon];
 
-      const handleStageClick = (stage) => {
-        let newOutput = '';
+  const handleStageClick = (stage) => {
+    let newOutput = '';
 
-        switch (stage) {
-          case 'lexical': {
-            const tokens = [];
-            let buffer = '';
-            let inString = false;
+    switch (stage) {
+      case 'lexical': {
+        const tokens = [];
+        let buffer = '';
+        let inString = false;
 
-            for (let char of code) {
-              if (char === '"' || char === "'") {
-                if (inString) {
-                  buffer += char;
-                  tokens.push(buffer);
-                  buffer = '';
-                  inString = false;
-                } else {
-                  if (buffer) tokens.push(...buffer.split(''));
-                  buffer = char;
-                  inString = true;
-                }
-              } else if (inString) {
-                buffer += char;
-              } else if (/[a-zA-Z]/.test(char)) {
-                buffer += char;
-              } else if (/\s/.test(char)) {
-                if (buffer) {
-                  tokens.push(...buffer.split(''));
-                  buffer = '';
-                }
-              } else {
-                if (buffer) {
-                  tokens.push(...buffer.split(''));
-                  buffer = '';
-                }
-                if (char.trim()) tokens.push(char);
-              }
+        for (let char of code) {
+          if (char === '"' || char === "'") {
+            if (inString) {
+              buffer += char;
+              tokens.push(buffer);
+              buffer = '';
+              inString = false;
+            } else {
+              if (buffer) tokens.push(...buffer.split(''));
+              buffer = char;
+              inString = true;
             }
-
+          } else if (inString) {
+            buffer += char;
+          } else if (/[a-zA-Z]/.test(char)) {
+            buffer += char;
+          } else if (/\s/.test(char)) {
             if (buffer) {
-              inString ? tokens.push(buffer) : tokens.push(...buffer.split(''));
+              tokens.push(...buffer.split(''));
+              buffer = '';
             }
-
-            newOutput =
-              'Lexical Analysis: tokenizing source code...\nTokens: ' +
-              tokens.join(', ');
-            break;
+          } else {
+            if (buffer) {
+              tokens.push(...buffer.split(''));
+              buffer = '';
+            }
+            if (char.trim()) tokens.push(char);
           }
-
-          case 'syntax':
-            newOutput =
-              'Syntax Analysis: building parse tree...\nParse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
-            break;
-
-          case 'semantic':
-            newOutput =
-              'Semantic Check: type & scope verification...\nAll types valid.';
-            break;
-
-          case 'evaluation': {
-            const simulatedOutput = code.match(/plant\((.*)\)/)?.[1] || '';
-            newOutput = 'Evaluation:\nOutput: ' + simulatedOutput;
-            break;
-          }
-
-          default:
-            newOutput = '';
         }
 
-        setOutputState(projectTitle, stage, newOutput);
-      };
+        if (buffer) {
+          inString ? tokens.push(buffer) : tokens.push(...buffer.split(''));
+        }
 
-      return (
-<div style={{ marginTop: '50px', fontFamily: 'monospace' }}>
-  <textarea
-    value={code}
-    readOnly
-    rows={5}
-    style={{
-      width: '90%',
-      padding: '20px',
-      fontFamily: 'monospace',
-      fontSize: '0.9rem',
-      borderRadius: '8px',
-      resize: 'none',
-    }}
-  />
+        newOutput =
+          'Lexical Analysis: tokenizing source code...\nTokens: ' +
+          tokens.join(', ');
+        break;
+      }
 
-  <div
-    style={{
-      marginTop: '40px',
-      display: 'flex',
-      gap: '10px',
-      flexWrap: 'wrap',
-    }}
-  >
-    {['lexical', 'syntax', 'semantic', 'evaluation'].map((s) => (
-      <button
-        key={s}
-        onClick={() => handleStageClick(s)}
-        style={{
-          backgroundColor: activeStage === s ? '#facb3f' : '#eee',
-          border: 'none',
-          padding: '8px 12px',
-          borderRadius: '6px',
-          cursor: 'pointer',
-          fontWeight: 'bold',
-        }}
-      >
-        {s.charAt(0).toUpperCase() + s.slice(1)}
-      </button>
-    ))}
-  </div>
+      case 'syntax':
+        newOutput =
+          'Syntax Analysis: building parse tree...\nParse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
+        break;
 
-  <pre
-    style={{
-      background: '#1e1e1e',
-      color: '#00ff00',
-      padding: '14px',
-      borderRadius: '8px',
-      marginTop: '40px',
-      whiteSpace: 'pre-wrap',
-    }}
-  >
-    {output}
-  </pre>
+      case 'semantic':
+        newOutput =
+          'Semantic Check: type & scope verification...\nAll types valid.';
+        break;
 
-  {/* Tech section: bullets above icons */}
-  <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-    {/* Bulleted tech description */}
-    <ul style={{ paddingLeft: '20px', color: '#555', fontSize: '0.85rem', lineHeight: 1.4, margin: 0 }}>
-      <li>Python: core language used</li>
-      <li>NLP: natural language processing techniques</li>
-      <li>Pandas: data handling and analysis</li>
-      <li>VS Code: development environment</li>
-    </ul>
+      case 'evaluation': {
+        const simulatedOutput = code.match(/plant\((.*)\)/)?.[1] || '';
+        newOutput = 'Evaluation:\nOutput: ' + simulatedOutput;
+        break;
+      }
 
-    {/* Tech icons */}
-    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-      {techStack.map((icon, i) => (
-        <img
-          key={i}
-          src={icon}
-          alt="Tech Icon"
-          style={{
-            width: '36px',
-            height: '36px',
-            transition: 'transform 0.2s',
-            cursor: 'pointer',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-        />
-      ))}
-    </div>
-  </div>
-</div>
-      );
+      default:
+        newOutput = '';
     }
 
-
-
-export function TextSummProject() {
-  const images = [research1, research2];
-  const techStack = [PythonIcon, NLPIcon, PandasIcon, VscodeIcon];
-
-  // Example bullets for project
-  const projectBullets = [
-    'Dataset preprocessing and cleaning',
-    'Adaptive summarization algorithm',
-    'NLP techniques for text analysis',
-    'Evaluation with metrics and results',
-  ];
+    setOutputState(projectTitle, stage, newOutput);
+  };
 
   return (
-    <div style={{ padding: '10px' }}>
-      {/* Image Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
-          gap: '12px',
-        }}
-      >
-        {images.map((img, i) => (
-          <div
-            key={i}
+    <div style={containerStyle}>
+      <textarea
+        value={code}
+        readOnly
+        rows={5}
+        style={codeEditorStyle}
+      />
+
+      <div style={buttonRowStyle}>
+        {['lexical', 'syntax', 'semantic', 'evaluation'].map((s) => (
+          <button
+            key={s}
+            onClick={() => handleStageClick(s)}
             style={{
-              ...imageBoxStyle,
-              minHeight: '100px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              ...stageButtonStyle,
+              backgroundColor: activeStage === s ? '#facb3f' : '#eee',
             }}
           >
-            <img
-              src={img}
-              alt=""
-              style={{
-                width: '80%',
-                height: 'auto',
-                objectFit: 'contain',
-                marginBottom: '6px',
-              }}
-            />
-            {/* Optional per-image description */}
-            <p style={{ fontSize: '0.8rem', color: '#888', textAlign: 'center', margin: 0 }}>
-              Image {i + 1} description
-            </p>
-          </div>
+            {s.charAt(0).toUpperCase() + s.slice(1)}
+          </button>
         ))}
       </div>
 
-      {/* Tech section: bullets above icons */}
-      <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {/* Bulleted project description */}
-        <ul style={{ paddingLeft: '20px', color: '#555', fontSize: '0.85rem', lineHeight: 1.4, margin: 0 }}>
-          {projectBullets.map((bullet, i) => (
-            <li key={i}>{bullet}</li>
-          ))}
+      <pre style={outputStyle}>{output}</pre>
+
+      {/* Tech section */}
+      <div style={techSectionStyle}>
+        <ul style={bulletListStyle}>
+          <li>Python: core language used</li>
+          <li>NLP: natural language processing techniques</li>
+          <li>Pandas: data handling and analysis</li>
+          <li>VS Code: development environment</li>
         </ul>
 
-        {/* Tech icons */}
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={techIconsWrapperStyle}>
           {techStack.map((icon, i) => (
             <img
               key={i}
               src={icon}
               alt="Tech Icon"
-              style={{
-                width: '36px',
-                height: '36px',
-                transition: 'transform 0.2s',
-                cursor: 'pointer',
-              }}
+              style={techIconStyle}
               onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
               onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             />
@@ -283,12 +174,64 @@ export function TextSummProject() {
 }
 
 
+export function TextSummProject() {
+  const images = [research1, research2];
+  const techStack = [PythonIcon, NLPIcon, PandasIcon, VscodeIcon];
+
+  const projectBullets = [
+    'Dataset preprocessing and cleaning',
+    'Adaptive summarization algorithm',
+    'NLP techniques for text analysis',
+    'Evaluation with metrics and results',
+  ];
+
+  return (
+    <div style={containerStyle}>
+      {/* Image Grid */}
+      <div style={imageGridStyle}>
+        {images.map((img, i) => (
+          <div key={i} style={imageBoxWrapperStyle}>
+            <img src={img} alt="" style={imageStyle} />
+          </div>
+        ))}
+      </div>
+
+      {/* Tech section */}
+      <div style={techSectionStyle}>
+        {/* Bullets */}
+        <ul style={bulletListStyle}>
+          {projectBullets.map((bullet, i) => (
+            <li key={i}>{bullet}</li>
+          ))}
+        </ul>
+
+        {/* Tech icons */}
+        <div style={techIconsWrapperStyle}>
+          {techStack.map((icon, i) => (
+            <img
+              key={i}
+              src={icon}
+              alt="Tech Icon"
+              style={techIconStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
 export default function PlmEams() {
   const [modalImage, setModalImage] = useState(null);
   const images = [eams1, eams2];
   const techStack = [FigmaIcon];
 
-  // Lock scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = modalImage ? 'hidden' : 'auto';
     return () => {
@@ -296,7 +239,6 @@ export default function PlmEams() {
     };
   }, [modalImage]);
 
-  // Bulleted description for the project
   const projectBullets = [
     'User login interface',
     'Dashboard overview',
@@ -307,145 +249,142 @@ export default function PlmEams() {
   ];
 
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={containerStyle}>
       {/* Image Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
-          gap: '12px',
-        }}
-      >
+      <div style={imageGridStyle}>
         {images.map((img, i) => (
           <div
             key={i}
-            style={{
-              ...imageBoxStyle,
-              minHeight: '120px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            style={imageBoxWrapperStyle}
             onClick={() => setModalImage(img)}
           >
-            <img
-              src={img}
-              alt=""
-              style={{
-                width: '80%',
-                height: 'auto',
-                objectFit: 'contain',
-              }}
-            />
+            <img src={img} alt="" style={imageStyle} />
           </div>
         ))}
       </div>
 
-      {/* Tech section: bullets above icons, like DedosCompiler */}
-      <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {/* Bulleted project description */}
-        <ul style={{ paddingLeft: '20px', color: '#555', fontSize: '0.85rem', lineHeight: 1.4, margin: 0 }}>
+      {/* Tech section */}
+      <div style={techSectionStyle}>
+        <ul style={bulletListStyle}>
           {projectBullets.map((bullet, i) => (
             <li key={i}>{bullet}</li>
           ))}
         </ul>
 
-        {/* Tech icons */}
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={techIconsWrapperStyle}>
           {techStack.map((icon, i) => (
             <img
               key={i}
               src={icon}
               alt="Tech Icon"
-              style={{
-                width: '36px',
-                height: '36px',
-                transition: 'transform 0.2s',
-                cursor: 'pointer',
-              }}
+              style={techIconStyle}
               onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
               onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             />
           ))}
         </div>
       </div>
-
-      {/* Modal */}
-      {modalImage && (
-        <div
-          onClick={() => setModalImage(null)}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            cursor: 'pointer',
-            padding: '10px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              width: '90vw',
-              maxWidth: '800px',
-              maxHeight: '90vh',
-              backgroundColor: '#1e1e1e',
-              borderRadius: '8px',
-              border: '1px solid #555',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              boxShadow: '0 0 20px rgba(0,0,0,0.5)',
-              padding: '10px',
-            }}
-          >
-            <img
-              src={modalImage}
-              alt=""
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                borderRadius: '4px',
-              }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
-/* Shared Styles */
-const imageBoxStyle = {
-  backgroundColor: '#1e1e1e',
-  border: '0px dashed #555',
-  borderRadius: '6px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  overflow: 'hidden',
-  cursor: 'pointer',
-  minHeight: '120px',
-};
-
-const imgStyle = {
-  width: '100%',
-  height: 'auto',
-  objectFit: 'contain',
-};
 
 
 
 
+
+/* ===== Modal Styles ===== */
+
+  const containerStyle = {
+    marginTop: '50px',
+    fontFamily: 'monospace',
+  };
+
+  const codeEditorStyle = {
+    width: '90%',
+    padding: '20px',
+    fontFamily: 'monospace',
+    fontSize: '0.9rem',
+    borderRadius: '8px',
+    resize: 'none',
+  };
+
+  const buttonRowStyle = {
+    marginTop: '40px',
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+  };
+
+  const stageButtonStyle = {
+    border: 'none',
+    padding: '8px 12px',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+  };
+
+  const outputStyle = {
+    background: '#1e1e1e',
+    color: '#00ff00',
+    padding: '14px',
+    borderRadius: '8px',
+    marginTop: '40px',
+    whiteSpace: 'pre-wrap',
+  };
+
+  const imageGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))',
+    gap: '8px',
+  };
+
+  const imageBoxWrapperStyle = {
+    ...imageBoxStyle,
+    minHeight: '30px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  };
+
+  const imageStyle = {
+    width: '50%',
+    height: 'auto',
+    objectFit: 'contain',
+    marginBottom: '4px',
+  };
+
+  const techSectionStyle = {
+    marginTop: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  };
+
+  const bulletListStyle = {
+    paddingLeft: '20px',
+    color: '#c20000',
+    fontSize: '0.85rem',
+    lineHeight: 3.0,
+    margin: 0,
+  };
+
+  const techIconsWrapperStyle = {
+    display: 'flex',
+    gap: '12px',
+    flexWrap: 'wrap',
+  };
+
+  const techIconStyle = {
+    width: '36px',
+    height: '36px',
+    transition: 'transform 0.2s',
+    cursor: 'pointer',
+  };
+
+
+
+
+  /* Shared Styles */
 
 
 /* =======================
@@ -472,8 +411,8 @@ export const projects = [
     info: 'Research project on adaptive summarization using NLP techniques. Includes datasets, analysis, and results.', 
   },
   {
-    title: 'Educational Assistance Management System',
-    desc: 'PLM Enterprise System',
+    title: 'PLM EAMS Educational Assistance Management System',
+    desc: 'PLM Educational Management System (Software Engineering1 | Software Engineering 2)',
     image: PlmPreview,
     bgColor: '#ebebeb',
     component: PlmEams,
@@ -482,7 +421,7 @@ export const projects = [
   },
   {
     title: 'Go Trike',
-    desc: 'Transportation booking platform',
+    desc: 'Go TrikeTransportation booking System Flutter Developer Commisioned Project',
     image: '/sample-gotrike.png',
     bgColor: '#ebebeb',
     techStack: [FlutterIcon, FirebaseIcon, FigmaIcon],

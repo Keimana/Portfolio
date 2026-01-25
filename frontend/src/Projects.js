@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import './Projects.css';
-import DedosCompiler from './Dedoscompiler';
-import DedosIcon from './assets/dedos.jpg';
-import TextSumm from './assets/python.jpg';
-
-import TextSummProject from './TextSummProject';
-
+import { projects } from './ProjectsData';
 
 export default function Projects() {
   const [showOverlay, setShowOverlay] = useState(true);
-  const [cursorPos, setCursorPos] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const [cursorPos, setCursorPos] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
   const [closing, setClosing] = useState(false);
@@ -18,109 +16,68 @@ export default function Projects() {
   const overlayRef = useRef(null);
   const modalContentRef = useRef(null);
 
-  // Output state for compilers
   const [outputState, setOutputState] = useState({
-    "DEDOS Compiler": { stage: '', output: '' },
+    'DEDOS Compiler': { stage: '', output: '' },
   });
 
   const handleSetOutputState = (projectTitle, stage, output) => {
-    setOutputState(prev => ({
+    setOutputState((prev) => ({
       ...prev,
-      [projectTitle]: { stage, output }
+      [projectTitle]: { stage, output },
     }));
   };
 
-  // --------------------------
-  // Project Data
-  // --------------------------
-  const projects = [
-    {
-      title: "DEDOS Compiler",
-      desc: "Programmer and creator of DEDOS Compiler, a Counter-Strike-themed compiler built in Python",
-      details: ["As a programmer, I built DEDOS Compiler using python programming language, a Counter-Strike themed custom compiler with unique commands",
-        "This is a sample statement from DEDOS Compiler project.",
-        "The plant statement is the same as the print statement in python programming language. This outputs text to the console.",
-      ],
-      image: DedosIcon,
-      bgColor: "#ebebeb",
-      diagonalText: "Thesis",
-      diagonalText2: "Peer-Reviewed Article",
-      sampleCode: `plant("Hello World")`,
-      codeLink: "https://github.com/Keimana/Dedos-Compiler", 
-    },
-    {
-      title: "Adaptive Approach Applied in Text Summarization",
-      desc: "Co‑author and developer of the adaptive dynamic text summarization algorithm presented in the peer-reviewed article.",
-      details: null,
-      image: TextSumm,
-      bgColor: "#facb3f",
-      codeLink: "https://tpmap.org/submission/index.php/tpm/article/view/1934/1530?fbclid=...",
-    },
-
-
-    {
-      
-      title: "PLM-EAMS",
-      desc: "Enterprise asset management system.",
-      details: "Manages assets, tracking, and reporting.",
-      image: "/sample-eams.png",
-      bgColor: "#ebebeb",
-      codeLink: "https://github.com/ronanbaje/plm-eams",
-    },
-    {
-      title: "Go Trike",
-      desc: "Transportation booking platform.",
-      details: "Optimized for local tricycle services.",
-      image: "/sample-gotrike.png",
-      bgColor: "#ebebeb", 
-      codeLink: "https://github.com/ronanbaje/go-trike",
-    },
-  ];
-
-  // --------------------------
-  // Overlay timing
-  // --------------------------
+  // Overlay intro animation
   useEffect(() => {
     const timer = setTimeout(() => setShowOverlay(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // --------------------------
-  // Cursor tracking
-  // --------------------------
+  // Custom cursor tracking
   useEffect(() => {
-    const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
+    const handleMouseMove = (e) =>
+      setCursorPos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // --------------------------
-  // Disable scroll when modal is open
-  // --------------------------
+  // Lock scrolling when modal is open
   useEffect(() => {
-    document.body.style.overflow = activeProject ? 'hidden' : 'auto';
-    return () => { document.body.style.overflow = 'auto'; }
+    if (activeProject) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+    } else {
+      const scrollY = -parseInt(document.body.style.top || '0');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+    };
   }, [activeProject]);
 
-  // --------------------------
-  // Animate modal open
-  // --------------------------
+  // Animate overlay to center
   useEffect(() => {
     if (!cardRect || !overlayRef.current) return;
     const overlay = overlayRef.current;
     requestAnimationFrame(() => {
       overlay.style.top = '50%';
       overlay.style.left = '50%';
-      overlay.style.width = '75vw';
-      overlay.style.height = '75vh';
-      overlay.style.borderRadius = '0px';
+      overlay.style.width = '90vw';
+      overlay.style.maxWidth = '90%';
+      overlay.style.height = '90vw';
+      overlay.style.maxHeight = '90%';
+      overlay.style.borderRadius = '8px';
       overlay.style.transform = 'translate(-50%, -50%)';
+      overlay.style.objectFit = 'contain';
     });
   }, [cardRect]);
 
-  // --------------------------
-  // Modal handlers
-  // --------------------------
   const handleOverlayClick = (e) => {
     if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
       handleClose();
@@ -128,8 +85,7 @@ export default function Projects() {
   };
 
   const handleCardClick = (project, e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCardRect(rect);
+    setCardRect(e.currentTarget.getBoundingClientRect());
     setActiveProject(project);
   };
 
@@ -138,7 +94,6 @@ export default function Projects() {
       setActiveProject(null);
       return;
     }
-
     setClosing(true);
     const overlay = overlayRef.current;
 
@@ -156,6 +111,8 @@ export default function Projects() {
     }, 500);
   };
 
+  const ActiveComponent = activeProject?.component;
+
   return (
     <div className="App">
       {showOverlay && (
@@ -168,27 +125,37 @@ export default function Projects() {
         />
       )}
 
-      {/* Navbar */}
       <nav className="navbar">
         <h1 className="logo">Ronan Baje</h1>
         <ul className="nav-links">
-          <li><Link to="/" className="home-btn">Home</Link></li>
+          <li>
+            <Link to="/" className="home-btn">Home</Link>
+          </li>
         </ul>
       </nav>
 
-      {/* Projects Section */}
       <section className="projects-section">
         <h2>Projects</h2>
+
         <div className="project-cards">
           {projects.map((project, index) => (
             <div
               key={index}
               className="project-card shine"
-              onClick={(e) => handleCardClick(project, e)}
               style={{ backgroundColor: project.bgColor }}
+              onClick={(e) => handleCardClick(project, e)}
             >
-              {project.title !== "Go Trike" && <div className="diagonal-text">Thesis</div>}
-              {project.title === "Adaptive Approach Applied in Text Summarization" && <div className="diagonal-text-2">Peer-Reviewed Article</div>}
+              {project.title !== 'Go Trike' && (
+                <div className="diagonal-text">Thesis</div>
+              )}
+
+              {project.title ===
+                'Adaptive Approach Applied in Text Summarization' && (
+                <div className="diagonal-text-2">
+                  Peer-Reviewed Article
+                </div>
+              )}
+
               <h3>{project.title}</h3>
               <p>{project.desc}</p>
             </div>
@@ -196,125 +163,101 @@ export default function Projects() {
         </div>
       </section>
 
-  {closing && <div> </div>}
+      {activeProject && cardRect && (
+        <>
+          {/* Overlay background */}
+          <div className="modal-bg" />
 
-
-{/* Modal */}
-{activeProject && cardRect && (
-  <>
-    <div
-      className="modal-bg"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        backdropFilter: 'blur(7px)',
-        zIndex: 998,
-        transition: 'all 0.3s ease',
-      }}
-    />
-
-    <div
-      className="fullscreen-container"
-      style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 999 }}
-      onClick={handleOverlayClick}
-    >
-      <div
-        className="fullscreen-overlay"
-        ref={overlayRef}
-        style={{
-          position: 'absolute',
-          top: `${cardRect.top}px`,
-          left: `${cardRect.left}px`,
-          width: `${cardRect.width}px`,
-          height: `${cardRect.height}px`,
-          borderRadius: '20px',
-          backgroundColor: '#ffffff',
-          overflow: 'auto',
-          transition: 'all 0.5s ease',
-        }}
-      >
-        <div className="fullscreen-content" ref={modalContentRef} style={{ padding: '20px', position: 'relative' }}>
-
-          {/* Header with icon + title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-            {activeProject.image && (
-              <img
-                src={activeProject.image}
-                alt={activeProject.title}
-                style={{ width: '60px', height: '60px', borderRadius: '12px' }}
-              />
-            )}
-            <div>
-              <h1 style={{ margin: 0 }}>{activeProject.title}</h1>
-              <p style={{ margin: 0, fontSize: '0.9rem', color: '#555' }}>{activeProject.desc}</p>
-            </div>
-          </div>
-
-          {/* Details */}
-          {Array.isArray(activeProject.details) ? (
-            <ul style={{ paddingLeft: '20px', marginTop: '10px' }}>
-              {activeProject.details.map((point, i) => (
-                <li key={i} style={{ marginBottom: '6px' }}>{point}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>{activeProject.details}</p>
-          )}
-
-        {activeProject.title === "DEDOS Compiler" ? (
-          <DedosCompiler
-            projectTitle={activeProject.title}
-            code={activeProject.sampleCode}
-            outputState={outputState[activeProject.title]}
-            setOutputState={handleSetOutputState}
-            details={activeProject.details} // pass details if needed
-          />
-        ) : activeProject.title === "Adaptive Approach Applied in Text Summarization" ? (
-          <TextSummProject />
-        ) : (
-          Array.isArray(activeProject.details) && (
-            <ul style={{ paddingLeft: '20px', marginTop: '10px' }}>
-              {activeProject.details.map((point, i) => (
-                <li key={i} style={{ marginBottom: '6px' }}>{point}</li>
-              ))}
-            </ul>
-          )
-)}
-          {/* See Full Code Button */}
-          {activeProject.codeLink && activeProject.title !== "Adaptive Approach Applied in Text Summarization" && (
-            <a
-              href={activeProject.codeLink}
-              target="_blank"
-              rel="noopener noreferrer"
+          {/* Fixed container */}
+          <div
+            className="fullscreen-container"
+            onClick={handleOverlayClick}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000,
+            }}
+          >
+            <div
+              className="fullscreen"
+              ref={overlayRef}
               style={{
                 position: 'absolute',
-                bottom: '-20px',
-                right: '20px',
-                padding: '10px 16px',
-                backgroundColor: '#facb3f',
-                color: '#000',
-                borderRadius: '5px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                cursor: 'pointer',
+                top: cardRect.top,
+                left: cardRect.left,
+                width: cardRect.width,
+                height: cardRect.height,
+                maxWidth: '95vw',         // responsive width
+                maxHeight: '95vh',        // responsive height
+                borderRadius: '12px',
+                transition: 'all 0.5s ease-in-out',
+                backgroundColor: '#fff',
+                overflow: 'auto',         // allow internal wrapping instead of scroll on viewport shrink
+                display: 'flex',
+                flexDirection: 'column',
+                boxSizing: 'border-box',
+                padding: '16px',
               }}
             >
-              Link here
-            </a>
-          )}
+              <div className="fullscreen-content" ref={modalContentRef}>
+                
+                <div className="modal-header">
+                  {activeProject.image && (
+                    <img
+                      src={activeProject.image}
+                      alt={activeProject.title}
+                      style={{
+                        width: '13%',
+                        maxHeight: '100px',
+                        objectFit: 'contain',
+                        borderRadius: '8px',
+                        marginBottom: '12px', // space between image and text
+                      }}
+                    />
+                  )}
+                  <div>
+                    <h1>{activeProject.title}</h1>
+                    <p style={{ fontSize: '0.95rem', color: '#555', margin: '6px 0' }}>
+                      {activeProject.desc}
+                    </p>
+                    {/* New info field */}
+                    {activeProject.info && (
+                      <p style={{ fontSize: '0.9rem', color: '#333', lineHeight: 1.4, marginTop: '8px' }}>
+                        {activeProject.info}
+                      </p>
+                    )}
+                  </div>
+                </div>
 
-        </div>
-      </div>
-    </div>
-  </>
-)}
+                {/* Dynamic component rendering */}
+                {ActiveComponent && (
+                  <ActiveComponent
+                    projectTitle={activeProject.title}
+                    code={activeProject.sampleCode}
+                    outputState={outputState[activeProject.title]}
+                    setOutputState={handleSetOutputState}
+                  />
+                )}
 
+                {activeProject.codeLink && (
+                  <a
+                    href={activeProject.codeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="code-link"
+                  >
+                    Link here
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
-      {/* Footer */}
       <footer className="footer">
         <p>&copy; 2026 Ronan Baje.</p>
       </footer>
