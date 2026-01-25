@@ -14,6 +14,7 @@ import NLPIcon from './assets/nlp.png';
 import VscodeIcon from './assets/VscodeIcon.png';
 import PandasIcon from './assets/PandasIcon.png';
 import PlmPreview from './assets/plm-1.png';
+import GotrikeIcon from './assets/gotrikeIcon.png';
 
 // Text Summ images
 import research1 from './assets/research-1.png';
@@ -22,6 +23,9 @@ import research2 from './assets/research-2.png';
 // PLM-EAMS images
 import eams1 from './assets/eams-1.png';
 import eams2 from './assets/eams-2.png';
+
+// Go Trike Video
+import gotrikeVideo from './assets/go-trike.mp4'; // Use your actual video path
 
 
 /* =======================
@@ -302,10 +306,71 @@ export default function PlmEams() {
 
 
 
+
+export function GoTrikeProject() {
+  const techStack = [FlutterIcon, FirebaseIcon, FigmaIcon];
+
+  const projectBullets = [
+    'Developed a mobile application for booking tricycle rides efficiently',
+    'Implemented real-time location tracking for drivers and passengers using Firebase',
+    'Designed intuitive booking and payment flows with Flutter',
+    'Created responsive UI/UX using Figma prototypes and Flutter layouts',
+    'Integrated secure payment and transaction management features',
+    'Enabled ride history, driver ratings, and notifications for better user experience',
+    'Tested application across multiple devices to ensure reliability and performance',
+  ];
+
+
+
+  return (
+    <div style={containerStyle}>
+      <div style={layoutStyle}>
+        {/* Video */}
+        <div style={videoWrapperStyle}>
+          <video
+            src={gotrikeVideo}
+            style={{ ...mediaStyle, width: '50%', height: 'auto' }}
+            autoPlay
+            loop
+            muted
+            controls={false}
+          />
+        </div>
+
+        {/* Bullets & Tech */}
+        <div style={bulletsWrapperStyle}>
+          {/* Bullets */}
+          <ul style={bulletListStyle}>
+            {projectBullets.map((bullet, i) => (
+              <li key={i}>{bullet}</li>
+            ))}
+          </ul>
+
+          {/* Tech Icons */}
+          <div style={techIconsWrapperStyle}>
+            {techStack.map((icon, i) => (
+              <img
+                key={i}
+                src={icon}
+                alt="Tech Icon"
+                style={techIconStyle}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
 /* ===== Modal Styles ===== */
 
   const containerStyle = {
-    marginTop: '50px',
+    marginTop: '20px',
     fontFamily: 'monospace',
   };
 
@@ -373,7 +438,7 @@ export default function PlmEams() {
   const bulletListStyle = {
     paddingLeft: '20px',
     color: '#000000',
-    fontSize: '0.85rem',
+    fontSize: '0.95rem',
     lineHeight: 2.0,
     margin: 0,
   };
@@ -391,6 +456,34 @@ export default function PlmEams() {
     cursor: 'pointer',
   };
 
+  const layoutStyle = {
+    display: 'flex',
+    flexDirection: 'row', // video left, bullets right
+    gap: '20px',
+    flexWrap: 'wrap',     // wrap on smaller screens
+    alignItems: 'flex-start',
+    marginTop: '30px',
+  };
+
+  const videoWrapperStyle = {
+    flex: '1 1 100px',   // grow/shrink, min width 300px
+    minWidth: '100px',
+  };
+
+  const bulletsWrapperStyle = {
+    flex: '1 1 100px',
+    minWidth: '100px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  };
+
+  const mediaStyle = {
+    width: '100%',
+    height: 'auto',
+    objectFit: 'contain',
+    paddingLeft: '150px',
+  };
 
 
 
@@ -433,9 +526,10 @@ export const projects = [
   {
     title: 'Go Trike',
     desc: 'Go Trike Transportation booking System Flutter Developer Commisioned Project',
-    image: '/sample-gotrike.png',
+    image: GotrikeIcon,
     bgColor: '#EFECE3',
+    component: GoTrikeProject,
     techStack: [FlutterIcon, FirebaseIcon, FigmaIcon],
-    info: 'A mobile app to book tricycle rides, track locations, and manage payments efficiently.',
+    info: 'A mobile application designed to efficiently book and manage tricycle rides, including secure payment processing, real-time driver tracking, and ride history, specifically serving the community of Telebastagan, Pampanga.',
   },
 ];
