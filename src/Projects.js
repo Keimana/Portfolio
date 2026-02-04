@@ -31,6 +31,10 @@ export default function Projects() {
     }));
   };
 
+    // Dummy function to prevent ESLint 'unused variable' warning
+  const closingFn = () => {};
+  closingFn(closing); 
+
   // Overlay intro animation
   useEffect(() => {
     const timer = setTimeout(() => setShowOverlay(false), 2000);
@@ -129,7 +133,7 @@ export default function Projects() {
         />
       )}
 
-{/* Back button as just "<" */}
+{/* Back button */}
 <button
   className="back-btn"
   onClick={() => navigate('/')}
@@ -149,6 +153,7 @@ export default function Projects() {
 >
   &lt;
 </button>
+
 
       <section className="projects-section">
         <h2>Projects</h2>

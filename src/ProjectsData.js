@@ -32,6 +32,8 @@ import gotrikeVideo from './assets/go-trike.mp4';
    COMPONENTS
 ======================= */
 
+
+
   const imageBoxStyle = {
     backgroundColor: '#1e1e1e',
     border: '0px dashed #555',
@@ -481,13 +483,6 @@ const videoWrapperStyle = {
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
-  };
-
-  const mediaStyle = {
-    width: '100%',
-    height: 'auto',
-    objectFit: 'contain',
-    paddingLeft: '150px',
   };
 
 
