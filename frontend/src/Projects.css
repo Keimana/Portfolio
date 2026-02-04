@@ -37,15 +37,17 @@ html {
 /* Navbar */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 1.5rem 5vw;
+  padding: 20px;
   background-color: #0f1628;
   color: white;
   position: sticky;
   top: 0;
   z-index: 100;
+  /* margin-right: 20px; remove this */
 }
+
 
 .nav-links {
   list-style: none;
@@ -320,4 +322,5 @@ html {
 .code-link:hover {
   transform: scale(1.05); /* scale up on hover */
 }
+
 

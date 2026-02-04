@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import profilePic from './assets/portfolio.png';
+import resumePDF from './assets/Baje_Resume.pdf';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
-  const [ripple] = useState({ active: false, x: 0, y: 0 });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,55 +14,30 @@ export default function Home() {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-
-
   return (
     <div className="App">
-      {/* Navbar */}
-      <nav className="navbar">
-        <h1 className="logo">Ronan Baje</h1>
-        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-        </ul>
-        <div id="hamburger" className={menuOpen ? 'open' : ''} onClick={toggleMenu}>
 
+      {/* Hero */}
+      <header className="hero">
+        <div className={`hero-content ${heroVisible ? 'visible' : ''}`}>
+          <div className="hero-inner">
+            <div className="hero-intro">Hello, I’m</div>
+            <div className="hero-name">Ronan</div>
+            <div className="hero-description">
+              I am a recent computer science graduate with a strong passion for coding, problem-solving, and exploring emerging AI technologies.
+            </div>
+            <div className="hero-buttons">
+              <button className="btn primary" onClick={() => navigate('/projects')}>
+                View my work
+              </button>
+              <a className="btn secondary" href={resumePDF} download>
+                Download my Resume
+              </a>
+            </div>
+          </div>
         </div>
-      </nav>
+      </header>
 
-    {/* Hero */}
-    <header className="hero">
-    <div className={`hero-content ${heroVisible ? 'visible' : ''}`}>
-        <div className="profile-pic-container">
-          
-        {/* Ink splat behind profile pic */}
-        <div className="ink-splat"></div>
-        <img src={profilePic} alt="Ronan Baje" className="profile-pic" />
-        </div>
-        <div className="hero-text">
-        <h2>Hello! I'm Ronan</h2>
-        <button className="cta-btn" onClick={() => navigate('/projects')}>
-            View My Work
-        </button>
-
-        <button className="cta-btn" onClick={() => navigate('/projects')}>
-            Download my Resume
-        </button>
-        </div>
-    </div>
-    </header>
-
-
-      {/* Ripple Effect */}
-      {ripple.active && (
-        <div
-          className="ripple-circle"
-          style={{ left: ripple.x, top: ripple.y }}
-        ></div>
-      )}
-
-      {/* Footer */}
-      <footer className="footer">
-        <p>&copy; 2025 Ronan Baje. All rights reserved.</p>
-      </footer>
     </div>
   );
 }

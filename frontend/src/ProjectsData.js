@@ -327,14 +327,18 @@ export function GoTrikeProject() {
       <div style={layoutStyle}>
         {/* Video */}
         <div style={videoWrapperStyle}>
-          <video
-            src={gotrikeVideo}
-            style={{ ...mediaStyle, width: '50%', height: 'auto' }}
-            autoPlay
-            loop
-            muted
-            controls={false}
-          />
+<video
+  src={gotrikeVideo}
+  autoPlay
+  loop
+  muted
+  playsInline
+  style={{
+    width: '100%',
+    height: '100%',
+    borderRadius: '12px',
+  }}
+/>
         </div>
 
         {/* Bullets & Tech */}
@@ -465,11 +469,12 @@ export function GoTrikeProject() {
     marginTop: '30px',
   };
 
-  const videoWrapperStyle = {
-    flex: '1 1 100px',   // grow/shrink, min width 300px
-    minWidth: '100px',
-  };
-
+const videoWrapperStyle = {
+  width: '100%',
+  maxWidth: '380px',   // 👈 controls size
+  aspectRatio: '9 / 16', // 👈 phone-like shape
+  flexShrink: 0,       // 👈 do not shrink
+};
   const bulletsWrapperStyle = {
     flex: '1 1 100px',
     minWidth: '100px',

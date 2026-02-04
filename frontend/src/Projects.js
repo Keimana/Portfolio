@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import './Projects.css';
 import { projects } from './ProjectsData';
@@ -9,6 +9,10 @@ export default function Projects() {
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
   });
+
+  const navigate = useNavigate(); // hook for navigation
+
+
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
   const [closing, setClosing] = useState(false);
@@ -125,14 +129,26 @@ export default function Projects() {
         />
       )}
 
-      <nav className="navbar">
-        <h1 className="logo">Ronan Baje</h1>
-        <ul className="nav-links">
-          <li>
-            <Link to="/" className="home-btn">Home</Link>
-          </li>
-        </ul>
-      </nav>
+{/* Back button as just "<" */}
+<button
+  className="back-btn"
+  onClick={() => navigate('/')}
+  style={{
+    position: 'fixed',
+    top: '50px',
+    left: 'clamp(10px, 5%, 50px)', // responsive left position
+    background: 'none', // remove background
+    border: 'none',     // remove border
+    padding: '0',       // remove padding
+    color: '#000000',   // text color
+    fontWeight: '500',
+    fontSize: '3rem',   // bigger arrow
+    cursor: 'pointer',
+    zIndex: 2000,
+  }}
+>
+  &lt;
+</button>
 
       <section className="projects-section">
         <h2>Projects</h2>
@@ -162,7 +178,7 @@ export default function Projects() {
           ))}
         </div>
       </section>
-
+      
       {activeProject && cardRect && (
         <>
           {/* Overlay background */}
@@ -258,9 +274,7 @@ export default function Projects() {
         </>
       )}
 
-      <footer className="footer">
-        <p>&copy; 2026 Ronan Baje.</p>
-      </footer>
+
     </div>
   );
 }
