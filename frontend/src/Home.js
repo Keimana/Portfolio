@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaLinkedin, FaGithub } from 'react-icons/fa'; 
 import resumePDF from './assets/Baje_Resume.pdf';
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -11,8 +11,6 @@ export default function Home() {
     const timer = setTimeout(() => setHeroVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <div className="App">
@@ -37,6 +35,59 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+    {/* Social Icons */}
+    <div style={{
+      position: 'fixed',
+      bottom: 'clamp(15px, 3vw, 30px)', 
+      right: 'clamp(20px, 5vw, 50px)',  
+      display: 'flex',
+      gap: 'clamp(10px, 2vw, 20px)',   
+      zIndex: 1000
+    }}>
+      <a
+        href="https://www.linkedin.com/in/ronan-baje-57879b25b/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: '#0F1628',
+          fontSize: 'clamp(1.5rem, 4vw, 2rem)', 
+          transition: 'transform 0.2s, color 0.2s'
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'scale(1.2)';
+          e.currentTarget.style.color = '#0077B5'; 
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.color = '#0F1628';
+        }}
+      >
+        <FaLinkedin />
+      </a>
+
+      <a
+        href="https://github.com/Keimana"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: '#0F1628',
+          fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+          transition: 'transform 0.2s, color 0.2s'
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'scale(1.2)';
+          e.currentTarget.style.color = '#333'; 
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.color = '#0F1628';
+        }}
+      >
+        <FaGithub />
+      </a>
+    </div>
+
 
     </div>
   );

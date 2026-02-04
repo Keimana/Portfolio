@@ -45,7 +45,7 @@ html {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* margin-right: 20px; remove this */
+
 }
 
 
@@ -151,8 +151,7 @@ html {
   transition: transform 0.3s, box-shadow 0.3s;
   position: relative;
   overflow: hidden;
-  position: relative; /* needed for absolute positioning */
-
+  position: relative; 
 }
 
 /* diagonal text */
@@ -166,7 +165,7 @@ html {
   font-weight: bold;
   padding: 6px 40px;
   font-size: 0.9rem;
-  pointer-events: none; /* don’t block clicks */
+  pointer-events: none;
   z-index: 10;
 }
 @keyframes fadeInCards {
@@ -189,20 +188,20 @@ html {
 .diagonal-text-2 {
   position: absolute;
   top: 40px;
-  right: -57px; /* shift it out for rotation */
-  transform: rotate(45deg); /* diagonal */
+  right: -57px; 
+  transform: rotate(45deg);
   background: linear-gradient(
     120deg,
     rgba(255, 0, 0, 0.1) 0%,
     rgba(255, 255, 255, 0.4) 50%,
     rgba(255, 0, 0, 0.1) 100%
-  ); /* gradient for shimmer */
+  ); 
   background-size: 200% 100%;
-  color: #000; /* text color */
+  color: #000; 
   font-weight: bold;
   padding: 10px 40px;
   font-size: 0.8rem;
-  pointer-events: none; /* don’t block clicks */
+  pointer-events: none; 
   z-index: 10;
 
   /* Shimmer effect */
@@ -279,7 +278,7 @@ html {
 .fullscreen-content {
   padding: 20px;
   position: static;
-  flex: 1;              /* 🔥 fill remaining height */
+  flex: 1;              
 
 }
 
@@ -316,11 +315,11 @@ html {
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.2s; /* smooth scaling */
+  transition: transform 0.2s; 
 }
 
 .code-link:hover {
-  transform: scale(1.05); /* scale up on hover */
+  transform: scale(1.05); 
 }
 
 

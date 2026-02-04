@@ -25,7 +25,7 @@ import eams1 from './assets/eams-1.png';
 import eams2 from './assets/eams-2.png';
 
 // Go Trike Video
-import gotrikeVideo from './assets/go-trike.mp4'; // Use your actual video path
+import gotrikeVideo from './assets/go-trike.mp4'; 
 
 
 /* =======================
@@ -462,18 +462,18 @@ export function GoTrikeProject() {
 
   const layoutStyle = {
     display: 'flex',
-    flexDirection: 'row', // video left, bullets right
+    flexDirection: 'row', 
     gap: '20px',
-    flexWrap: 'wrap',     // wrap on smaller screens
+    flexWrap: 'wrap',   
     alignItems: 'flex-start',
     marginTop: '30px',
   };
 
 const videoWrapperStyle = {
   width: '100%',
-  maxWidth: '380px',   // 👈 controls size
-  aspectRatio: '9 / 16', // 👈 phone-like shape
-  flexShrink: 0,       // 👈 do not shrink
+  maxWidth: '380px',   
+  aspectRatio: '9 / 16', 
+  flexShrink: 0,    
 };
   const bulletsWrapperStyle = {
     flex: '1 1 100px',

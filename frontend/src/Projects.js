@@ -136,13 +136,13 @@ export default function Projects() {
   style={{
     position: 'fixed',
     top: '50px',
-    left: 'clamp(10px, 5%, 50px)', // responsive left position
-    background: 'none', // remove background
-    border: 'none',     // remove border
-    padding: '0',       // remove padding
-    color: '#000000',   // text color
+    left: 'clamp(10px, 5%, 50px)', 
+    background: 'none', 
+    border: 'none',     
+    padding: '0',       
+    color: '#000000',   
     fontWeight: '500',
-    fontSize: '3rem',   // bigger arrow
+    fontSize: '3rem',   
     cursor: 'pointer',
     zIndex: 2000,
   }}
@@ -206,12 +206,12 @@ export default function Projects() {
                 left: cardRect.left,
                 width: cardRect.width,
                 height: cardRect.height,
-                maxWidth: '95vw',         // responsive width
-                maxHeight: '95vh',        // responsive height
+                maxWidth: '95vw',         
+                maxHeight: '95vh',       
                 borderRadius: '12px',
                 transition: 'all 0.5s ease-in-out',
                 backgroundColor: '#fff',
-                overflow: 'auto',         // allow internal wrapping instead of scroll on viewport shrink
+                overflow: 'auto',         
                 display: 'flex',
                 flexDirection: 'column',
                 boxSizing: 'border-box',
@@ -230,7 +230,7 @@ export default function Projects() {
                         maxHeight: '100px',
                         objectFit: 'contain',
                         borderRadius: '8px',
-                        marginBottom: '12px', // space between image and text
+                        marginBottom: '12px', 
                       }}
                     />
                   )}
