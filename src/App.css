@@ -8,25 +8,6 @@ html, body {
   overflow-x: hidden; 
 }
 
-/* ===== Navbar ===== */
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.nav-links a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0f1628;
-}
 
 /* ===== App Wrapper ===== */
 .App {
@@ -122,6 +103,17 @@ html, body {
   animation: fadeInUp 0.7s ease 0.5s forwards; 
 }
 
+.btn.tertiary {
+  background: transparent;
+  border: 2px solid #0F1628;
+  color: #0F1628;
+}
+
+.btn.tertiary:hover {
+  background: #0F1628;
+  color: white;
+}
+
 /* Keyframes for fade + upward movement */
 @keyframes fadeInUp {
   0% {
@@ -191,6 +183,135 @@ html, body {
   line-height: 1.6;
   color: #333;
   opacity: 0.9;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+
+  opacity: 0;
+  animation: overlayFade 0.25s ease-in-out forwards;
+}
+
+.modal {
+  width: 500px;
+  max-width: 90%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  animation: modalIn 0.25s ease-in-out forwards;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 16px;
+  background: #0F1628;
+  color: white;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left; 
+}
+.toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar button {
+  border: none;
+  background: #eee;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.toolbar button.active {
+  background: #0F1628;
+  color: white;
+}
+
+.editor {
+  min-height: 150px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  text-align: left; 
+}
+
+.modal-footer {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal.closing {
+  animation: modalOut 0.25s ease-in-out forwards;
+}
+
+.modal-overlay.closing {
+  animation: overlayOut 0.25s ease-in-out forwards;
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+}
+
+@keyframes overlayOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+
+
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Responsive ===== */

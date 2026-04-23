@@ -12,7 +12,6 @@ export default function Projects() {
 
   const navigate = useNavigate(); // hook for navigation
 
-
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
   const [closing, setClosing] = useState(false);
@@ -76,9 +75,9 @@ export default function Projects() {
     requestAnimationFrame(() => {
       overlay.style.top = '50%';
       overlay.style.left = '50%';
-      overlay.style.width = '90vw';
-      overlay.style.maxWidth = '90%';
-      overlay.style.height = '90vw';
+      overlay.style.width = '75vw';
+      overlay.style.maxWidth = '100%';
+      overlay.style.height = '90%';
       overlay.style.maxHeight = '90%';
       overlay.style.borderRadius = '8px';
       overlay.style.transform = 'translate(-50%, -50%)';
@@ -155,7 +154,11 @@ export default function Projects() {
 </button>
 
 
-      <section className="projects-section">
+
+
+
+      <section
+        className="projects-section">
         <h2>Projects</h2>
 
         <div className="project-cards">
@@ -193,36 +196,12 @@ export default function Projects() {
           <div
             className="fullscreen-container"
             onClick={handleOverlayClick}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1000,
-            }}
+
           >
             <div
               className="fullscreen"
               ref={overlayRef}
-              style={{
-                position: 'absolute',
-                top: cardRect.top,
-                left: cardRect.left,
-                width: cardRect.width,
-                height: cardRect.height,
-                maxWidth: '95vw',         
-                maxHeight: '95vh',       
-                borderRadius: '12px',
-                transition: 'all 0.5s ease-in-out',
-                backgroundColor: '#fff',
-                overflow: 'auto',         
-                display: 'flex',
-                flexDirection: 'column',
-                boxSizing: 'border-box',
-                padding: '10px',
-              }}
-            >
+              >
               <div className="fullscreen-content" ref={modalContentRef}>
                 
                 <div className="modal-header">
@@ -230,13 +209,6 @@ export default function Projects() {
                     <img
                       src={activeProject.image}
                       alt={activeProject.title}
-                      style={{
-                        width: '13%',
-                        maxHeight: '100px',
-                        objectFit: 'contain',
-                        borderRadius: '8px',
-                        marginBottom: '12px', 
-                      }}
                     />
                   )}
                   <div>

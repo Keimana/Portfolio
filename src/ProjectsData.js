@@ -60,6 +60,7 @@ export function DedosCompiler({
     'Implemented a functional Python-based compiler for "plant()" commands',
     'Built lexical, syntax, semantic, and code generation stages with real-time output',
     'Documented and submitted the project thesis, including physical binding at the university',
+    'The DeDos Compiler is on github for more!',
   ];
   const handleStageClick = (stage) => {
     let newOutput = '';
@@ -105,19 +106,19 @@ export function DedosCompiler({
         }
 
         newOutput =
-          'Lexical Analysis: tokenizing source code...\nTokens: ' +
+          'Tokenizing source code: \nTokens: ' +
           tokens.join(', ');
         break;
       }
 
       case 'syntax':
         newOutput =
-          'Syntax Analysis: building parse tree...\nParse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
+          'Building parse tree: \nParse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
         break;
 
       case 'semantic':
         newOutput =
-          'Semantic Check: type & scope verification...\nAll types valid.';
+          'Type & scope verification: \nAll types valid.';
         break;
 
       case 'evaluation': {
@@ -326,7 +327,7 @@ export function GoTrikeProject() {
 
   return (
     <div style={containerStyle}>
-      <div style={layoutStyle}>
+      <div style={layoutStyle} className="layout">
         {/* Video */}
         <div style={videoWrapperStyle}>
 <video
@@ -376,7 +377,7 @@ export function GoTrikeProject() {
 /* ===== Modal Styles ===== */
 
   const containerStyle = {
-    marginTop: '20px',
+    marginTop: '0px',
     fontFamily: 'monospace',
   };
 
@@ -428,7 +429,7 @@ export function GoTrikeProject() {
   };
 
   const imageStyle = {
-    width: '50%',
+    width: '100%',
     height: 'auto',
     objectFit: 'contain',
     marginBottom: '4px',
@@ -462,18 +463,18 @@ export function GoTrikeProject() {
     cursor: 'pointer',
   };
 
-  const layoutStyle = {
-    display: 'flex',
-    flexDirection: 'row', 
-    gap: '20px',
-    flexWrap: 'wrap',   
-    alignItems: 'flex-start',
-    marginTop: '30px',
-  };
+const layoutStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '20px',
+  flexWrap: 'wrap',
+  alignItems: 'flex-start',
+  marginTop: '10px',
+};
 
 const videoWrapperStyle = {
   width: '100%',
-  maxWidth: '380px',   
+  maxWidth: '300px',   
   aspectRatio: '9 / 16', 
   flexShrink: 0,    
 };
