@@ -14,7 +14,7 @@ export default function Projects() {
 
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
-  const [closing, setClosing] = useState(false);
+  const [closing, setClosing] = useState(false); 
 
   const overlayRef = useRef(null);
   const modalContentRef = useRef(null);
