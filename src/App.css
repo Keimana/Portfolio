@@ -201,7 +201,6 @@ html, body {
 
 .modal-header {
   display: flex;
-  justify-content: space-between;
   padding: 0px 16px;
   background: #ffffff;
   color: #0F1628;
