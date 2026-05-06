@@ -10,7 +10,7 @@ export default function Projects() {
     y: window.innerHeight / 2,
   });
 
-  const navigate = useNavigate(); // hook for navigation
+  const navigate = useNavigate();
 
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
@@ -30,25 +30,22 @@ export default function Projects() {
     }));
   };
 
-    // Dummy function to prevent ESLint 'unused variable' warning
-  const closingFn = () => {};
-  closingFn(closing); 
-
-  // Overlay intro animation
+  // Intro overlay
   useEffect(() => {
     const timer = setTimeout(() => setShowOverlay(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Custom cursor tracking
+  // Cursor tracking
   useEffect(() => {
     const handleMouseMove = (e) =>
       setCursorPos({ x: e.clientX, y: e.clientY });
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Lock scrolling when modal is open
+  // Lock scroll when modal open
   useEffect(() => {
     if (activeProject) {
       const scrollY = window.scrollY;
@@ -62,28 +59,33 @@ export default function Projects() {
       document.body.style.top = '';
       window.scrollTo(0, scrollY);
     }
+
     return () => {
       document.body.style.position = '';
       document.body.style.top = '';
     };
   }, [activeProject]);
 
-  // Animate overlay to center
+  // Animate to center
   useEffect(() => {
     if (!cardRect || !overlayRef.current) return;
+
     const overlay = overlayRef.current;
+
     requestAnimationFrame(() => {
       overlay.style.top = '50%';
       overlay.style.left = '50%';
-      overlay.style.width = '75vw';
-      overlay.style.maxWidth = '100%';
-      overlay.style.height = '90%';
-      overlay.style.maxHeight = '90%';
-      overlay.style.borderRadius = '8px';
+      overlay.style.width = '80vw';
+      overlay.style.height = '80vh';
       overlay.style.transform = 'translate(-50%, -50%)';
-      overlay.style.objectFit = 'contain';
+      overlay.style.borderRadius = '8px';
     });
   }, [cardRect]);
+
+  const handleCardClick = (project, e) => {
+    setCardRect(e.currentTarget.getBoundingClientRect());
+    setActiveProject(project);
+  };
 
   const handleOverlayClick = (e) => {
     if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
@@ -91,16 +93,12 @@ export default function Projects() {
     }
   };
 
-  const handleCardClick = (project, e) => {
-    setCardRect(e.currentTarget.getBoundingClientRect());
-    setActiveProject(project);
-  };
-
   const handleClose = () => {
     if (!overlayRef.current || !cardRect) {
       setActiveProject(null);
       return;
     }
+
     setClosing(true);
     const overlay = overlayRef.current;
 
@@ -108,8 +106,8 @@ export default function Projects() {
     overlay.style.left = `${cardRect.left}px`;
     overlay.style.width = `${cardRect.width}px`;
     overlay.style.height = `${cardRect.height}px`;
-    overlay.style.borderRadius = '20px';
     overlay.style.transform = 'translate(0, 0)';
+    overlay.style.borderRadius = '20px';
 
     setTimeout(() => {
       setClosing(false);
@@ -132,33 +130,12 @@ export default function Projects() {
         />
       )}
 
-{/* Back button */}
-<button
-  className="back-btn"
-  onClick={() => navigate('/')}
-  style={{
-    position: 'fixed',
-    top: '50px',
-    left: 'clamp(10px, 5%, 50px)', 
-    background: 'none', 
-    border: 'none',     
-    padding: '0',       
-    color: '#000000',   
-    fontWeight: '500',
-    fontSize: '3rem',   
-    cursor: 'pointer',
-    zIndex: 2000,
-  }}
->
-  &lt;
-</button>
+      {/* Back Button */}
+      <button className="back-btn" onClick={() => navigate('/')}>
+        &lt;
+      </button>
 
-
-
-
-
-      <section
-        className="projects-section">
+      <section className="projects-section">
         <h2>Projects</h2>
 
         <div className="project-cards">
@@ -186,46 +163,42 @@ export default function Projects() {
           ))}
         </div>
       </section>
-      
+
       {activeProject && cardRect && (
         <>
-          {/* Overlay background */}
           <div className="modal-bg" />
 
-          {/* Fixed container */}
-          <div
-            className="fullscreen-container"
-            onClick={handleOverlayClick}
-
-          >
+          <div className="fullscreen-container" onClick={handleOverlayClick}>
             <div
               className="fullscreen"
               ref={overlayRef}
-              >
+              style={{
+                top: cardRect.top,
+                left: cardRect.left,
+                width: cardRect.width,
+                height: cardRect.height,
+              }}
+            >
               <div className="fullscreen-content" ref={modalContentRef}>
-                
                 <div className="modal-header">
                   {activeProject.image && (
                     <img
                       src={activeProject.image}
                       alt={activeProject.title}
+                      className="modal-image"
                     />
                   )}
+
                   <div>
                     <h1>{activeProject.title}</h1>
-                    <p style={{ fontSize: '0.95rem', color: '#555', margin: '6px 0' }}>
-                      {activeProject.desc}
-                    </p>
-                    {/* New info field */}
+                    <p className="modal-desc">{activeProject.desc}</p>
+
                     {activeProject.info && (
-                      <p style={{ fontSize: '0.9rem', color: '#333', lineHeight: 1.4, marginTop: '8px' }}>
-                        {activeProject.info}
-                      </p>
+                      <p className="modal-info">{activeProject.info}</p>
                     )}
                   </div>
                 </div>
 
-                {/* Dynamic component rendering */}
                 {ActiveComponent && (
                   <ActiveComponent
                     projectTitle={activeProject.title}
@@ -250,8 +223,6 @@ export default function Projects() {
           </div>
         </>
       )}
-
-
     </div>
   );
 }

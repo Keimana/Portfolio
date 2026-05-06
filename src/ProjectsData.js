@@ -106,24 +106,24 @@ export function DedosCompiler({
         }
 
         newOutput =
-          'Tokenizing source code: \nTokens: ' +
+          'Tokens: ' +
           tokens.join(', ');
         break;
       }
 
       case 'syntax':
         newOutput =
-          'Building parse tree: \nParse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
+          'Parse Tree: [Program → plantStatement → "(" → "Hello World" → ")"]';
         break;
 
       case 'semantic':
         newOutput =
-          'Type & scope verification: \nAll types valid.';
+          'All types valid.';
         break;
 
       case 'evaluation': {
         const simulatedOutput = code.match(/plant\((.*)\)/)?.[1] || '';
-        newOutput = 'Evaluation:\nOutput: ' + simulatedOutput;
+        newOutput = 'Output: ' + simulatedOutput;
         break;
       }
 
@@ -191,9 +191,9 @@ export function TextSummProject() {
   const techStack = [PythonIcon, NLPIcon, PandasIcon, VscodeIcon];
   const projectBullets = [
     'Collected and preprocessed text datasets for summarization experiments',
-    'Implemented an adaptive dynamic algorithm combining steps from multiple summarization methods',
+    'Implemented an adaptive dynamic algorithm combining steps',
     'Applied NLP techniques for text analysis, including tokenization, feature extraction, and scoring',
-    'Evaluated model performance using metrics like ROUGE and BLEU, ensuring accuracy and efficiency',
+    'Evaluated model performance using metrics like ROUGE and BERT, ensuring accuracy and efficiency',
     'Optimized memory usage and computation through dynamic programming techniques',
     'Documented methodology and results for peer-reviewed publication',
   ];
