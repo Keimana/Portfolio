@@ -5,6 +5,7 @@ import { projects } from './ProjectsData';
 
 export default function Projects() {
   const [showOverlay, setShowOverlay] = useState(true);
+
   const [cursorPos, setCursorPos] = useState({
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
@@ -14,7 +15,6 @@ export default function Projects() {
 
   const [activeProject, setActiveProject] = useState(null);
   const [cardRect, setCardRect] = useState(null);
-  const [closing, setClosing] = useState(false); 
 
   const overlayRef = useRef(null);
   const modalContentRef = useRef(null);
@@ -30,13 +30,17 @@ export default function Projects() {
     }));
   };
 
-  // Intro overlay
+  /* =======================
+     INTRO OVERLAY
+  ======================= */
   useEffect(() => {
     const timer = setTimeout(() => setShowOverlay(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Cursor tracking
+  /* =======================
+     CURSOR TRACKING
+  ======================= */
   useEffect(() => {
     const handleMouseMove = (e) =>
       setCursorPos({ x: e.clientX, y: e.clientY });
@@ -45,7 +49,9 @@ export default function Projects() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Lock scroll when modal open
+  /* =======================
+     SCROLL LOCK (MODAL)
+  ======================= */
   useEffect(() => {
     if (activeProject) {
       const scrollY = window.scrollY;
@@ -66,7 +72,9 @@ export default function Projects() {
     };
   }, [activeProject]);
 
-  // Animate to center
+  /* =======================
+     OPEN MODAL ANIMATION
+  ======================= */
   useEffect(() => {
     if (!cardRect || !overlayRef.current) return;
 
@@ -82,24 +90,23 @@ export default function Projects() {
     });
   }, [cardRect]);
 
+  /* =======================
+     OPEN PROJECT
+  ======================= */
   const handleCardClick = (project, e) => {
     setCardRect(e.currentTarget.getBoundingClientRect());
     setActiveProject(project);
   };
 
-  const handleOverlayClick = (e) => {
-    if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
-      handleClose();
-    }
-  };
-
+  /* =======================
+     CLOSE PROJECT
+  ======================= */
   const handleClose = () => {
     if (!overlayRef.current || !cardRect) {
       setActiveProject(null);
       return;
     }
 
-    setClosing(true);
     const overlay = overlayRef.current;
 
     overlay.style.top = `${cardRect.top}px`;
@@ -110,16 +117,26 @@ export default function Projects() {
     overlay.style.borderRadius = '20px';
 
     setTimeout(() => {
-      setClosing(false);
       setActiveProject(null);
       setCardRect(null);
     }, 500);
+  };
+
+  const handleOverlayClick = (e) => {
+    if (
+      modalContentRef.current &&
+      !modalContentRef.current.contains(e.target)
+    ) {
+      handleClose();
+    }
   };
 
   const ActiveComponent = activeProject?.component;
 
   return (
     <div className="App">
+
+      {/* Overlay intro */}
       {showOverlay && (
         <div
           className="overlay"
@@ -135,6 +152,7 @@ export default function Projects() {
         &lt;
       </button>
 
+      {/* Projects */}
       <section className="projects-section">
         <h2>Projects</h2>
 
@@ -164,11 +182,15 @@ export default function Projects() {
         </div>
       </section>
 
+      {/* Modal */}
       {activeProject && cardRect && (
         <>
           <div className="modal-bg" />
 
-          <div className="fullscreen-container" onClick={handleOverlayClick}>
+          <div
+            className="fullscreen-container"
+            onClick={handleOverlayClick}
+          >
             <div
               className="fullscreen"
               ref={overlayRef}
@@ -179,7 +201,10 @@ export default function Projects() {
                 height: cardRect.height,
               }}
             >
-              <div className="fullscreen-content" ref={modalContentRef}>
+              <div
+                className="fullscreen-content"
+                ref={modalContentRef}
+              >
                 <div className="modal-header">
                   {activeProject.image && (
                     <img
@@ -191,10 +216,14 @@ export default function Projects() {
 
                   <div>
                     <h1>{activeProject.title}</h1>
-                    <p className="modal-desc">{activeProject.desc}</p>
+                    <p className="modal-desc">
+                      {activeProject.desc}
+                    </p>
 
                     {activeProject.info && (
-                      <p className="modal-info">{activeProject.info}</p>
+                      <p className="modal-info">
+                        {activeProject.info}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -203,7 +232,9 @@ export default function Projects() {
                   <ActiveComponent
                     projectTitle={activeProject.title}
                     code={activeProject.sampleCode}
-                    outputState={outputState[activeProject.title]}
+                    outputState={
+                      outputState[activeProject.title]
+                    }
                     setOutputState={handleSetOutputState}
                   />
                 )}
